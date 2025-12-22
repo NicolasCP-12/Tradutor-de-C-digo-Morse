@@ -22,28 +22,62 @@ MorseMap tabela_morse[] = {
 
     {' ', "/"}
 };
-
-void morse();
-void linguaguem();
+char *buscarCodigoMorse(char letra);
+void fromMorseToLanguage();
+void fromLanguageToMorse();
 
 int main(void) {
     char t;
     printf("Introduza o tipo de mensagem inicial ('m' para codigo morse ou 'l' para linguagem usual)\n");
-    if (scanf("%c", &t) == 'm') {
-        morse();
-    }
-    if (scanf("%c", &t) == 'l') {
-        linguaguem();
-    }
+    scanf("%c", &t);
+        if ( t == 'm') {
+            fromMorseToLanguage();
+        }
+        else if (t == 'l') {
+            fromLanguageToMorse();
+        }
+        else {
+            printf("Caracter inválido, tente novamente!\n");
+        }
     return 0;
 }
 
-void morse() {
-    printf("Introduza '.' para um sinal único e '-' para um sinal contínuo");
+void fromMorseToLanguage() {
+    printf("Introduza '.' para um sinal único e '-' para um sinal contínuo\n");
+    printf("Introduza o código morse a ser convertido para liguagem real\n");
+    char codigo [255];
+    getchar();
+    fgets(codigo, 255, stdin);
     // Função para traduzir codigo morse em linguagem real utilizar a tabela para decodificar
 }
 
-void linguaguem() {
-    printf("Introduza o texto para converter para morse");
-    // Função para traduzir linguagem real em codigo morse utilizar a tabela para decodificar
+void fromLanguageToMorse() {
+    printf("Introduza o texto a ser convertido para código morse\n");
+    char palavra [255];
+    getchar();
+    fgets(palavra, 255, stdin);
+    for (int i = 0; palavra[i] != '\0'; i++) {
+        char letra = palavra[i];
+        if (letra == '\n')
+            continue;
+        char *codigo = buscarCodigoMorse(letra);
+        if (codigo != NULL) {
+            printf("%s ", codigo);
+        } else {
+            printf("? ");
+        }
+    }
+    printf("\n");
+    // Função para traduzir linguagem real em codigo morse utilizar a tabela para codificar
+}
+
+char *buscarCodigoMorse(char letra) {
+    letra = toupper(letra);
+    int tamanho_tabela = sizeof(tabela_morse);
+    for (int i = 0; tabela_morse[i].caractere != tamanho_tabela; i++) {
+        if (tabela_morse[i].caractere == letra) {
+            return tabela_morse[i].codigo;
+        }
+    }
+    return NULL;
 }

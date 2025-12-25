@@ -30,6 +30,7 @@ char *buscarCodigoMorse(char letra);
 char buscarLetra(const char *palavra);
 void fromMorseToLanguage();
 void fromLanguageToMorse();
+void creditos_finais() ; 
 
 int main(void) {
     char t;
@@ -45,6 +46,7 @@ int main(void) {
     else {
         printf("Caracter inválido, tente novamente!\n");
     }
+    creditos_finais() ; 
     return 0;
 }
 
@@ -119,4 +121,40 @@ char buscarLetra(const char *palavra) {
         }
     }
     return '?';
+ 
+}
+void creditos_finais() {
+    //Funcao para traduzir ficheiro em morse , ness ecaso creditos finais 
+    char mensagem[] = "Trabalho realizado por Enzo Mello e Nicolas Pinto. Espero que tenham gostado.";
+    printf("                  CREDITOS FINAIS:                           \n");
+    printf("Mensagem Original:\n");
+    printf("%s\n\n", mensagem); 
+
+    FILE *f_texto = fopen("autores.txt", "w");
+    if (f_texto != NULL) {
+        fprintf(f_texto, "%s", mensagem);
+        fclose(f_texto);
+    }
+    FILE *f_morse = fopen("autores_morse.txt", "w");
+    if (f_morse == NULL) {
+        printf("Erro ao criar ficheiro morse.\n");
+        return ;
+    }
+    printf("Traducao em Morse:\n");
+    for (int i = 0; mensagem[i] != '\0'; i++) {
+        char letra = mensagem[i];
+        char *codigo = buscarCodigoMorse(letra);
+
+        if (codigo != NULL) {
+         
+            printf("%s ", codigo);          
+            fprintf(f_morse, "%s ", codigo); 
+        } 
+        else if (letra == ' ') {
+            printf("/ ");                    
+            fprintf(f_morse, "/ ");        
+        }
+    }
+    printf("\n") ; 
+    fclose(f_morse);
 }
